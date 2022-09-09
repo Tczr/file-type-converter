@@ -15,4 +15,8 @@ public class ConverterController {
         this.fileService = fileService;
     }
 
+    @GetMapping(path={"/",""})
+    public String getHomePage(){
+        return "../templates/home";
+    }
 }

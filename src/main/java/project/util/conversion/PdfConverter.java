@@ -2,6 +2,9 @@ package project.util.conversion;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.rendering.PDFRenderer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Marker;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
@@ -14,10 +17,8 @@ import java.io.IOException;
 
 @Service
 public class PdfConverter implements Conversion{
-//
-//    private PDDocument document;
-//    private PDFRenderer render;
 
+    private Logger log= LoggerFactory.getLogger(PdfConverter.class);
     @Override
     public Resource convert(File originalFile, String conversionType) {
         return chooseRightMethodToConvert(originalFile,conversionType);
@@ -31,11 +32,7 @@ public class PdfConverter implements Conversion{
         }
     }
 
-    /**
-     *
-     * @param originalFile
-     * @return
-     */
+
     //TODO(Tomorrow): Do the implementation
     private Resource convertToDOCX(File originalFile) {
         return null;
@@ -45,11 +42,14 @@ public class PdfConverter implements Conversion{
         try {
              File convertedFile = new File(originalFile
                     .getPath()
-                    .split(".")[0]
-                    +"converted"+"."+conversionType);
-            System.out.println("from convert pdf -> image the path of converted file in [ "+convertedFile.getPath()+" ] " +
+                    .split("\\.")[0]
+                    +"-converted"+"."+conversionType);
+
+            log.info("converting from pdf -> image the path of converted file in [ "+convertedFile.getPath()+" ] " +
                     "name of the file [ "+convertedFile.getName()+" ]");
+
             PDDocument document = PDDocument.load(originalFile);
+
             BufferedImage generatedImage  = renderPdf(document).renderImageWithDPI(0, 300);
 
             ImageIO.write(generatedImage,

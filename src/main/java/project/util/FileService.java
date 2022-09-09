@@ -1,6 +1,9 @@
 package project.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import project.storage.SystemStorage;
@@ -9,9 +12,11 @@ import project.util.conversion.ConversionPicker;
 
 import java.io.*;
 import java.net.URL;
+import java.util.Arrays;
 
 @Service
 public class FileService {
+    private Logger log = LoggerFactory.getLogger(FileService.class);
     private final URL HOME_DIRECTORY=this.getClass().getResource(SystemStorage.IMAGES_HOME.getPath());
     private final ConversionPicker conversionPicker;
     private Conversion conversionMethod;
@@ -28,18 +33,20 @@ public class FileService {
         this.originalFile=file;
     }
 
-    public boolean copy(InputStream stream, String fileName) {
-         originalFile = new File(HOME_DIRECTORY.getPath() + (fileName.toUpperCase()));
+    public Resource copy(InputStream stream, String fileName) {
 
-        if (makeDirectory(originalFile)) {
+        String path = fileName.split("\\.")[0].replace(" ","-");
+
+        if (makeDirectory(  new File(HOME_DIRECTORY.getPath() + path)) ) {
+            originalFile = new File(directory.getPath()+"\\"+fileName);
             try (OutputStream writable = new FileOutputStream(originalFile)) {
                 writable.write(stream.readAllBytes());
-                return true;
+                return new FileSystemResource(originalFile);
             } catch (IOException exc) {
-                throw new RuntimeException("Error happening while copping file name [ " + fileName + " ] Exception:", exc);
+                log.error("Error happening while copping file name [ " + fileName + " ]", exc);
             }
         }
-        return false;
+        return null;
     }
 
     public Resource convert(String conversionType, String originalType){
@@ -49,14 +56,13 @@ public class FileService {
         return conversionMethod.convert(originalFile, conversionType);
     }
 
-    public boolean makeDirectory(File file){
+    private boolean makeDirectory(File file){
         directory = new File(HOME_DIRECTORY.getPath()+file.getName().toUpperCase());
         if (!directory.isDirectory()){
             if(!directory.mkdir())
-                throw new RuntimeException
-                        ("Cannot create a directory for [ "+file.getName()+" ]" +
+                 log.error("Cannot create a directory for [ "+file.getName()+" ]" +
                         " on path [ "+HOME_DIRECTORY.getPath()+" ]");
-            //return false;
+            return false;
         }
        return true;
     }

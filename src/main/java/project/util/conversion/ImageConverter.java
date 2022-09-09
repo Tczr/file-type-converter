@@ -1,5 +1,7 @@
 package project.util.conversion;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
@@ -10,7 +12,7 @@ import java.io.*;
 
 @Service
 public class ImageConverter implements Conversion{
-
+    Logger  log= LoggerFactory.getLogger(ImageConverter.class);
     @Override
     public Resource convert(File originalFile, String conversionType) {
         return chooseRightMethodToConvert(originalFile,conversionType);
@@ -25,10 +27,13 @@ public class ImageConverter implements Conversion{
     }
 
     private Resource convertToImage(File originalFile, String conversionType) {
-        File convertedFile = new File(originalFile.getPath()+"."+conversionType);
+        File convertedFile = new File(originalFile.getPath().split("\\.")[0]+"-converted."+conversionType);
 
-        if (!convertedFile.exists())
-            throw new RuntimeException("Error creating file [ "+ convertedFile +" ] on ["+ originalFile.getPath()+" ]");
+        log.info("Created a file at [ "+convertedFile.getPath() +" ]");
+
+        if (!(convertedFile.isFile()) ) {
+            log.error("Error creating file [ " + convertedFile + " ] on [" + originalFile.getPath() + " ]");
+        }
 
         try {
             InputStream reader = new FileInputStream(originalFile);
@@ -40,17 +45,12 @@ public class ImageConverter implements Conversion{
             converted.close();
             return new FileSystemResource(convertedFile);
 
-
         }catch (IOException exc){exc.printStackTrace();}
 
         return null;
     }
 
-    /**
-     *
-     * @param originalFile
-     * @return
-     */
+
     //TODO(Tomorrow): do the implementation
     private Resource convertToPDF(File originalFile) {
         return null;

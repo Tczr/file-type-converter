@@ -11,7 +11,7 @@
     <meta charset="UTF-8">
     <title>تحويل الملفات</title>
 
-    <link rel="stylesheet" href="../static/styles/main.css"/>
+    <link rel="stylesheet" href="styles/main.css"/>
 
 </head>
 <body>
@@ -23,7 +23,7 @@
     </header>
 
     <main><!--For CEO cmpatipilty-->
-        <form method="post" action="#" enctype="multipart/form-data" onsubmit="validate(event)">
+        <form method="post" action="/" enctype="multipart/form-data" onsubmit="validate(event)">
             
             <section class="type-section flex"><!--for flex box-->
                     <div><!--conversion from input--> 
@@ -53,18 +53,24 @@
                         id="original-file">
             </section>
             
-            <section class="result inline-boxes">
+            <section class="result inline-boxes" th:classappend="${originalFile!=null ? 'show' : 'hide'}">
                 <div>
                     <p>الملف الاصلي</p>
-                    <a>الملف</a>
+                    <a th:href="@{images/{fileName}(fileName=${originalFile?.getName()}) }" download> <span th:text="${originalFile?.getName()}"/> </a>
                 </div>
                 <div>
                     <p>الملف المعدل</p>
-                    <a>الملف</a>
+                    <a th:href="@{images/{fileName}(fileName=${originalFile?.getName()}) }" download> <span th:text="${convertedFile?.getName()}"/> </a>
+
                 </div>
                 <div>
                     <p>الأنواع المستخدمة</p>
-                    <a>من النوع الى النوع</a>
+                    <span>
+                        تم التحويل من
+                        <span th:text="${originalType}"/>
+                        الى
+                        <span th:text="${conversionType}"/>
+                    </span>
                 </div>
             </section>
             <div>
@@ -101,6 +107,6 @@
     </main>
 
 
-<script src="../static/scripts/main.js"></script>
+<script src="scripts/main.js"></script>
 </body>
 </html>

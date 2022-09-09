@@ -67,11 +67,13 @@ function setOptions(originalType)
 
 // submit validation
 function validate(event){
-    event.preventDefault();
     const isFileSet = hasFile();
     const isOriginalTypeSet = hasOriginalType();
     const isConversionTypeSet = hasConversionType();
-
+    if(!isFileSet || !isOriginalTypeSet || !isConversionTypeSet){
+        event.preventDefault();
+        console.log("prevented")
+    }
     console.log("is file uploaded:"+isFileSet+
     "\nis original set:"+isOriginalTypeSet+
     "\nis conversion type set:"+isConversionTypeSet
@@ -110,37 +112,38 @@ function hasConversionType(){
     return true;
 }
 // test Cases
-const avaliableTestCases = {
+const availableTestCases = {
     pdf:{
         types:["png","jpg"],
-        defaultFile:"imageUrl"
+        defaultFile:"/static/images/default/test-pdf.pdf"
     },
     png:{
         types:["jpg"],
-        defaultFile:"imageUrl"
+        defaultFile:"/static/images/default/test-png.png"
     },
     jpg:{
         types:["png"],
-        defaultFile:"imageUrl"
+        defaultFile:"/static/images/default/test-jpg.jpg"
     }
 }
 
 function sendTest(original,conversion){
-   if(avaliableTestCases.hasOwnProperty(original));
+   if(availableTestCases.hasOwnProperty(original));
    {
         let defaultFile=null;
-        avaliableTestCases[original].types.forEach(
+        availableTestCases[original].types.forEach(
             (element)=>{
                 if( element==conversion)
                 {
-                    console.log("condition is met, try to send...", avaliableTestCases[original].defaultFile);
-                    defaultFile= avaliableTestCases[original].defaultFile;
+                    console.log("condition is met, try to send...", availableTestCases[original].defaultFile);
+                    defaultFile= availableTestCases[original].defaultFile;
                     return;
                 }
             }
         );
         console.log(defaultFile);
-        post("/convesion-test",[{name:"original-type", value:original},{name:"conversion-type", value:conversion},{name:"file", value:defaultFile}])
+
+        post("/default-conversion",[{name:"original-type", value:original},{name:"conversion-type", value:conversion},{name:"file-path", value:defaultFile}])
     }
     // console.log(event.target.attributes.value);
     // const testCases = event.target;
@@ -154,20 +157,22 @@ function sendTest(original,conversion){
  */
 function post(path, args, method='post'){
 
+    const body = document.body;
     const form =document.createElement('form');
-    form.enctype="multipart/form-data";
     form.method=method;
     form.action=path;
     args.forEach(
         (element)=>{
             const hiddenInput = document.createElement('input');
             hiddenInput.hidden="hidden";
-            hiddenInput.name=element.key;
+            hiddenInput.name=element.name;
             hiddenInput.value=element.value;
+
             console.log("adding:"+element.name+" : "+element.value);
             form.appendChild(hiddenInput);
         }
     );
-    form.submit();
+        body.appendChild(form);
+        form.submit();
 
 }

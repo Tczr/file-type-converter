@@ -12,7 +12,7 @@ import java.io.*;
 
 @Service
 public class ImageConverter implements Conversion{
-    Logger  log= LoggerFactory.getLogger(ImageConverter.class);
+//    private final Logger  log= LoggerFactory.getLogger(ImageConverter.class);
     @Override
     public Resource convert(File originalFile, String conversionType) {
         return chooseRightMethodToConvert(originalFile,conversionType);
@@ -29,11 +29,9 @@ public class ImageConverter implements Conversion{
     private Resource convertToImage(File originalFile, String conversionType) {
         File convertedFile = new File(originalFile.getPath().split("\\.")[0]+"-converted."+conversionType);
 
-        log.info("Created a file at [ "+convertedFile.getPath() +" ]");
+//        log.info("Created a file at [ "+convertedFile.getPath() +" ]");
+        System.out.println("Created a file at [ "+convertedFile.getPath() +" ]");
 
-        if (!(convertedFile.isFile()) ) {
-            log.error("Error creating file [ " + convertedFile + " ] on [" + originalFile.getPath() + " ]");
-        }
 
         try {
             InputStream reader = new FileInputStream(originalFile);

@@ -18,7 +18,7 @@ import java.io.IOException;
 @Service
 public class PdfConverter implements Conversion{
 
-    private Logger log= LoggerFactory.getLogger(PdfConverter.class);
+//    private final Logger log= LoggerFactory.getLogger(PdfConverter.class);
     @Override
     public Resource convert(File originalFile, String conversionType) {
         return chooseRightMethodToConvert(originalFile,conversionType);
@@ -45,8 +45,10 @@ public class PdfConverter implements Conversion{
                     .split("\\.")[0]
                     +"-converted"+"."+conversionType);
 
-            log.info("converting from pdf -> image the path of converted file in [ "+convertedFile.getPath()+" ] " +
-                    "name of the file [ "+convertedFile.getName()+" ]");
+         /*   log.info("converting from pdf -> image the path of converted file in [ "+convertedFile.getPath()+" ] " +
+                    "name of the file [ "+convertedFile.getName()+" ]");*/
+            System.out.println("converting from pdf -> image the path of converted file in" +
+                    " [ "+convertedFile.getPath()+" ]name of the file [ "+convertedFile.getName()+" ]");
 
             PDDocument document = PDDocument.load(originalFile);
 

@@ -16,7 +16,7 @@ import java.util.Arrays;
 
 @Service
 public class FileService {
-    private Logger log = LoggerFactory.getLogger(FileService.class);
+//    private final Logger log = LoggerFactory.getLogger(FileService.class);
     private final URL HOME_DIRECTORY=this.getClass().getResource(SystemStorage.IMAGES_HOME.getPath());
     private final ConversionPicker conversionPicker;
     private Conversion conversionMethod;
@@ -30,6 +30,7 @@ public class FileService {
 
 
     public void loadFile(File file){
+
         this.originalFile=file;
     }
 
@@ -43,7 +44,7 @@ public class FileService {
                 writable.write(stream.readAllBytes());
                 return new FileSystemResource(originalFile);
             } catch (IOException exc) {
-                log.error("Error happening while copping file name [ " + fileName + " ]", exc);
+                exc.printStackTrace();
             }
         }
         return null;
@@ -60,11 +61,30 @@ public class FileService {
         directory = new File(HOME_DIRECTORY.getPath()+file.getName().toUpperCase());
         if (!directory.isDirectory()){
             if(!directory.mkdir())
-                 log.error("Cannot create a directory for [ "+file.getName()+" ]" +
+                throw new RuntimeException("Cannot create a directory for [ "+file.getName()+" ]" +
                         " on path [ "+HOME_DIRECTORY.getPath()+" ]");
-            return false;
+              /*   log.error("Cannot create a directory for [ "+file.getName()+" ]" +
+                        " on path [ "+HOME_DIRECTORY.getPath()+" ]");
+            return false;*/
         }
        return true;
     }
 
+    public boolean delete(File file){
+        return file.delete();
+    };
+    public boolean deleteAll(){
+        boolean deleted = false;
+
+        if(directory!=null && directory.isDirectory()){
+            if(directory.listFiles()!=null){
+                for(File file : directory.listFiles()){
+                    deleted=file.delete();
+                }
+            }
+            deleted=directory.delete();
+        }
+
+        return deleted;
+    }
 }

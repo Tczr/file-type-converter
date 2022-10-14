@@ -1,0 +1,1 @@
+web: java -jar target/file-type-converter-0..0.1-SNAPSHOT.jar

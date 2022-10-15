@@ -46,11 +46,11 @@ public class ConverterController {
             {
 
                 final File convertedFile=  fileService.convert(conversionType, originalType).getFile();
-
+/*
                 boolean isFilesDeleted=fileService.deleteAll();
 
                 if(isFilesDeleted) System.out.println("Folder and its files deleted" );
-                else System.out.println("Folder does not deleted");
+                else System.out.println("Folder does not deleted");*/
 
                 model.addAttribute("originalFile",originalFile.getFile());
                 model.addAttribute("convertedFile",convertedFile);
@@ -73,6 +73,7 @@ public class ConverterController {
                                RedirectAttributes redirect) {
 
         try{
+            System.out.println("default image path:"+filePath);
             String path = this.getClass().getResource(filePath).getPath();
             File defaultFile = new File(path);
 
@@ -85,10 +86,10 @@ public class ConverterController {
             {
                 fileService.loadFile(defaultFile);
                 final File convertedFile=  fileService.convert(conversionType, originalType).getFile();
-                boolean isFilesDeleted=fileService.delete(convertedFile);
+                /*boolean isFilesDeleted=fileService.delete(convertedFile);
 
                 if(isFilesDeleted) System.out.println( "Folder and its files deleted" );
-                else System.out.println("Folder does not deleted");
+                else System.out.println("Folder does not deleted");*/
 
                 redirect.addFlashAttribute("originalFile",defaultFile);
                 redirect.addFlashAttribute("convertedFile",convertedFile);

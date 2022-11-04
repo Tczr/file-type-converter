@@ -40,9 +40,11 @@ public class PdfConverter implements Conversion{
 
     private Resource convertToImage(File originalFile, String conversionType) {
         try {
-             File convertedFile = new File(originalFile
+            System.out.println("conversion file will be stored in this path:"+originalFile.getPath().split(".pdf")[0]);
+
+            File convertedFile = new File(originalFile
                     .getPath()
-                    .split("\\.")[0]
+                    .split(".pdf")[0]
                     +"-converted"+"."+conversionType);
 
          /*   log.info("converting from pdf -> image the path of converted file in [ "+convertedFile.getPath()+" ] " +

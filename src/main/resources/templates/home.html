@@ -56,11 +56,11 @@
             <section class="result inline-boxes" th:classappend="${originalFile!=null ? 'show' : 'hide'}">
                 <div>
                     <p>الملف الاصلي</p>
-                    <a th:href="@{images/{fileName}(fileName=${originalFile?.getName()}) }" download> <span th:text="${originalFile?.getName()}"/> </a>
+                    <a th:href="@{/file/{fileName}(fileName=${originalFile?.getName()}) }" download> <span th:text="${originalFile?.getName()}"/> </a>
                 </div>
                 <div>
                     <p>الملف المعدل</p>
-                    <a th:href="@{images/{fileName}(fileName=${originalFile?.getName()}) }" download> <span th:text="${convertedFile?.getName()}"/> </a>
+                    <a th:href="@{/file/{fileName}(fileName=${convertedFile?.getName()}) }" download> <span th:text="${convertedFile?.getName()}"/> </a>
 
                 </div>
                 <div>

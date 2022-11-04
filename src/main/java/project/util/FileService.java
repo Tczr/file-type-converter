@@ -17,7 +17,7 @@ import java.util.Arrays;
 @Service
 public class FileService {
 //    private final Logger log = LoggerFactory.getLogger(FileService.class);
-    private final URL HOME_DIRECTORY=this.getClass().getResource(SystemStorage.IMAGES_HOME.getPath());
+    private final String HOME_DIRECTORY=SystemStorage.SYSTEM_DIR.getPath();
     private final ConversionPicker conversionPicker;
     private Conversion conversionMethod;
     private File originalFile;
@@ -38,10 +38,27 @@ public class FileService {
 
         String path = fileName.split("\\.")[0].replace(" ","-");
 
-        if (makeDirectory(  new File(HOME_DIRECTORY.getPath() + path)) ) {
+        if (makeDirectory(  new File(HOME_DIRECTORY + path)) ) {
             originalFile = new File(directory.getPath()+"\\"+fileName);
             try (OutputStream writable = new FileOutputStream(originalFile)) {
                 writable.write(stream.readAllBytes());
+                return new FileSystemResource(originalFile);
+            } catch (IOException exc) {
+                exc.printStackTrace();
+            }
+        }
+        return null;
+    }
+    public Resource copy(byte[] data, String fileName) {
+
+        String path = fileName.split("\\.")[0].replace(" ","-");
+
+        if (makeDirectory(  new File(HOME_DIRECTORY +File.separator+ path)) ) {
+            originalFile = new File(directory.getPath()+File.separator+fileName);
+            try (BufferedOutputStream stream = new BufferedOutputStream(
+                    new FileOutputStream(originalFile)) ) {
+                stream.write(data);
+                stream.close();
                 return new FileSystemResource(originalFile);
             } catch (IOException exc) {
                 exc.printStackTrace();
@@ -56,13 +73,18 @@ public class FileService {
         conversionMethod = conversionPicker.getConversion(originalType);
         return conversionMethod.convert(originalFile, conversionType);
     }
-
+    public String getDirectoryPath(){
+        if(directory.exists()){
+        return directory.getPath();}
+        return null;
+    }
     private boolean makeDirectory(File file){
-        directory = new File(HOME_DIRECTORY.getPath()+file.getName().toUpperCase());
-        if (!directory.isDirectory()){
-            if(!directory.mkdir())
+        directory = new File(HOME_DIRECTORY+File.separator+file.getName().toUpperCase());
+        if (!directory.exists()){
+            directory.mkdir();
+            if(!directory.exists()){
                 throw new RuntimeException("Cannot create a directory for [ "+file.getName()+" ]" +
-                        " on path [ "+HOME_DIRECTORY.getPath()+" ]");
+                        " on path [ "+file.getAbsolutePath()+" ]");}
               /*   log.error("Cannot create a directory for [ "+file.getName()+" ]" +
                         " on path [ "+HOME_DIRECTORY.getPath()+" ]");
             return false;*/

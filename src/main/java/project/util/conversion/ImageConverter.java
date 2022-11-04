@@ -27,7 +27,8 @@ public class ImageConverter implements Conversion{
     }
 
     private Resource convertToImage(File originalFile, String conversionType) {
-        File convertedFile = new File(originalFile.getPath().split("\\.")[0]+"-converted."+conversionType);
+        System.out.println("conversion file will be stored in this path:"+originalFile.getPath().split("\\.png$|\\.jpg$|\\.pdf$")[0]);
+        File convertedFile = new File(originalFile.getPath().split("\\.png$|\\.jpg$|\\.pdf$")[0]+"-converted."+conversionType);
 
 //        log.info("Created a file at [ "+convertedFile.getPath() +" ]");
         System.out.println("Created a file at [ "+convertedFile.getPath() +" ]");

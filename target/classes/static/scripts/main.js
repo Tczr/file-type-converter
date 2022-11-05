@@ -12,8 +12,8 @@ const fileInput = document.getElementById('original-file');
 const fileLable = document.getElementById('file-label'); 
 
 fileInput.addEventListener('change', ()=>{
-    const fileSize = fileInput.files[0].size/1000;
-    if(fileInput.files.length>0 && fileSize<=500){
+    const fileSize = (fileInput.files[0].size/1000)/1000;
+    if(fileInput.files.length>0 && fileSize<=10){
         const fileName = fileInput.files[0].name;
         fileLable.textContent=fileName;
         console.log("size of "+ fileName+" is:"+fileSize);
@@ -22,7 +22,7 @@ fileInput.addEventListener('change', ()=>{
     }
     else{
         resetTodefualtValue();
-        setError("لايمكنك تحويل ملف أكبر من 1 ميغابايت");
+        setError("لايمكنك تحويل ملف أكبر من 10 ميغابايت");
     }
 
 });

@@ -33,7 +33,7 @@ function resetTodefualtValue(){
 }
 // option section
 const options = {
-    pdf:["png","jpg","docx"],
+    pdf:["png","jpg"],
     png:["jpg","pdf"],
     jpg:["png","pdf"]
 }

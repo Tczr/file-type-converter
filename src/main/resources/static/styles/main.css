@@ -92,7 +92,9 @@ label[name="file-label"] {
     padding: 1em;
     font-family: var(--ar-font);
 }
-
+.btn[type="submit"]{
+    background:#f0f0f0;
+}
 .inline-boxes>div{
     display: inline-block;
     margin: 0 0.93em;
@@ -144,6 +146,7 @@ label[name="file-label"] {
 }
 
 .result{
+    justify-content: center;
     gap: 1em;
     flex-wrap: wrap;
 }

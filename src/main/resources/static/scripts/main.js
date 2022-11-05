@@ -1,3 +1,4 @@
+const fileError = document.getElementById("file-error-message");
 // displying original type section
 const originalFileType = document.getElementById('original-type');
 function setOrignialType(type){
@@ -10,24 +11,32 @@ function setOrignialType(type){
 const fileInput = document.getElementById('original-file');
 const fileLable = document.getElementById('file-label'); 
 
-fileInput.addEventListener('change', (e)=>{
-    
-    if(e.target.files.length>0){
-        const fileName = e.target.files[0].name;
+fileInput.addEventListener('change', ()=>{
+    const fileSize = fileInput.files[0].size/1000;
+    if(fileInput.files.length>0 && fileSize<=500){
+        const fileName = fileInput.files[0].name;
         fileLable.textContent=fileName;
+        console.log("size of "+ fileName+" is:"+fileSize);
+        
         setOrignialType( fileName.split('.')[1].toLowerCase() )  ;
     }
     else{
         resetTodefualtValue();
-        
+        setError("لايمكنك تحويل ملف أكبر من 1 ميغابايت");
     }
 
 });
+
+function setError(Msg){
+    fileError.textContent=Msg;
+    fileError.parentElement.classList.replace("hide","show");
+}
 
 function resetTodefualtValue(){
     fileLable.textContent="أرفق الملف";
     originalFileType.setAttribute("value","");
     originalFileType.ariaPlaceholder="نوع الملف";
+
     optionConversionList.value=optionConversionList.options[0].value;
     resetOptionsIfThereIsAny();
 }

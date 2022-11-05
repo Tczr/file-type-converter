@@ -53,7 +53,12 @@
                     <input type="file" 
                         name="file"
                         id="original-file">
+
+                        <div class="error-msg hide">
+                            <p id="file-error-message"></p>
+                        </div>
             </section>
+           
             
             <section class="result flex" th:classappend="${originalFile!=null ? 'show' : 'hide'}">
                 <div>

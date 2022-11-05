@@ -161,3 +161,12 @@ label[name="file-label"] {
     opacity:1;
 
 }
+.error-msg {
+        width: fit-content;
+        margin: 0.9em 21%;
+        /* color: #ff7f7f; */
+        background: #ff484852;
+        padding: 0.6em;
+        border: 1px solid #ff7f7f;
+        border-radius: 16px;
+}

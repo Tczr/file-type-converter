@@ -12,6 +12,8 @@
     <title>تحويل الملفات</title>
 
     <link rel="stylesheet" href="styles/main.css"/>
+<!--    <link rel="stylesheet" href="../static/styles/main.css"/>-->
+
 
 </head>
 <body>
@@ -47,20 +49,20 @@
             </section>
 
             <section class="upload-section"><!--for file holder-->
-                    <label for="original-file" name="file-label" id="file-label" class="btn bg-darck mid-text bold">أرفق الملف</label>
+                    <label for="original-file" name="file-label" id="file-label" class="btn bg-glass-white mid-text bold">أرفق الملف</label>
                     <input type="file" 
                         name="file"
                         id="original-file">
             </section>
             
-            <section class="result inline-boxes" th:classappend="${originalFile!=null ? 'show' : 'hide'}">
+            <section class="result flex" th:classappend="${originalFile!=null ? 'show' : 'hide'}">
                 <div>
                     <p>الملف الاصلي</p>
-                    <a th:href="@{/file/{fileName}(fileName=${originalFile?.getName()}) }" download> <span th:text="${originalFile?.getName()}"/> </a>
+                    <a class="download-link" th:href="@{/file/{fileName}(fileName=${originalFile?.getName()}) }" download> <span th:text="${originalFile?.getName()}"/> </a>
                 </div>
                 <div>
                     <p>الملف المعدل</p>
-                    <a th:href="@{/file/{fileName}(fileName=${convertedFile?.getName()}) }" download> <span th:text="${convertedFile?.getName()}"/> </a>
+                    <a class="download-link" th:href="@{/file/{fileName}(fileName=${convertedFile?.getName()}) }" download> <span th:text="${convertedFile?.getName()}"/> </a>
 
                 </div>
                 <div>
@@ -74,7 +76,7 @@
                 </div>
             </section>
             <div>
-                <button type="submit" class="btn bg-green bold mid-text">إبدأ التحويل</button>
+                <button type="submit" class="btn bg-glass-white bold mid-text">إبدأ التحويل</button>
             </div>
         
         </form>

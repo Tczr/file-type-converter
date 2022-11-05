@@ -4,30 +4,32 @@
     --ar-font:"El messiri";
     --green-bg:#22FF7A;
     --gray-bg:#303030;
+    --black:#262734;
 }
 /* reset section */
 *{
     margin:0;
     padding:0;
     box-sizing: border-box;
-    
 }
-
 a{
  text-decoration: none;
 }
 
 input[type="text"], select{
-    border: none;
     font-family: var(--ar-font) ;
+    border: none;
     font-weight: bold;
     outline: none;
-    color: var(--green-bg);
+    color: black;
+    background: #f0f0f0;
+    padding: 0.3em 0.5em;
+    border-radius: 5px;
 
 }
 
 ::-webkit-input-placeholder{
-    color: var(--green-bg);
+    color: var(--black);
 }
 
 input[type="file"]{
@@ -53,6 +55,9 @@ body{
     padding: 2em 0;
     max-width: 100%;
     margin: 0 15%;
+    
+    background: linear-gradient(180deg, var(--black) , #4c4e59);
+    color: white;
 
     text-align: center;
 }
@@ -84,7 +89,7 @@ label[name="file-label"] {
 
 .btn{
     width: 60%;
-    height: 40px;
+    padding: 1em;
     font-family: var(--ar-font);
 }
 
@@ -112,6 +117,9 @@ label[name="file-label"] {
     background-color:  var(--gray-bg);
     color: #fff ;
 }
+.bg-glass-white{
+    box-shadow: -2px 2px 10px 0 rgb(0 0 0 / 30%);
+}
 .block{
     display: block;
 }
@@ -130,10 +138,21 @@ label[name="file-label"] {
     margin: 1.5em 0;
 }
 
+.download-link{
+    color: #22FF7A;
+
+}
+
+.result{
+    gap: 1em;
+    flex-wrap: wrap;
+}
 .hide{
     opacity:0;
     margin:0;
     height:0px;
+    display: none;
+    transition: 0.5s all ease-in-out;
 }
 .show{
     opacity:1;
